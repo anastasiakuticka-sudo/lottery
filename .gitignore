@@ -6,3 +6,12 @@ frontend/dist/
 .env
 .env.local
 contracts/Config.js
+
+# Hardhat generated files
+artifacts/
+cache/
+
+# Firebase generated files
+frontend/.firebase/
+frontend/.agents/
+frontend/skills-lock.json
