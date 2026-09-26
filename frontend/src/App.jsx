@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Web3 from "web3";
 import Lottery from "./contracts/Lottery.json";
 import { CONTRACT_ADDRESS } from "./contractConfig";
@@ -8,7 +8,9 @@ function App() {
   const [account, setAccount] = useState("");
   const [balance, setBalance] = useState("0");
   const [playersCount, setPlayersCount] = useState(0);
+  const [players, setPlayers] = useState([]);
   const [winner, setWinner] = useState("");
+  const [nickname, setNickname] = useState("");
   const [status, setStatus] = useState("");
 
   const connectWallet = async () => {
@@ -66,7 +68,7 @@ function App() {
     }
   };
 
-  const loadPlayersCount = async () => {
+  const loadPlayers = async () => {
     try {
       const { contract } = await getContract();
 
@@ -74,6 +76,19 @@ function App() {
         .getPlayersCount()
         .call();
 
+      const result = await contract.methods
+        .getPlayers()
+        .call();
+
+      const addresses = result[0];
+      const nicknames = result[1];
+
+      const playerList = addresses.map((address, index) => ({
+        address,
+        nickname: nicknames[index],
+      }));
+
+      setPlayers(playerList);
       setPlayersCount(Number(count));
     } catch (error) {
       console.error(error);
@@ -87,12 +102,17 @@ function App() {
         return;
       }
 
+      if (!nickname.trim()) {
+        setStatus("Please enter a nickname.");
+        return;
+      }
+
       const { web3, contract } = await getContract();
 
       setStatus("Joining lottery...");
 
       await contract.methods
-        .joinLottery()
+        .joinLottery(nickname.trim())
         .send({
           from: account,
           value: web3.utils.toWei("0.01", "ether"),
@@ -100,8 +120,10 @@ function App() {
 
       setStatus("You joined the lottery.");
 
+      setNickname("");
+
       await loadBalance();
-      await loadPlayersCount();
+      await loadPlayers();
     } catch (error) {
       console.error(error);
       setStatus(
@@ -130,13 +152,16 @@ function App() {
       const winnerEvent = result.events?.WinnerPicked;
 
       if (winnerEvent) {
-        setWinner(winnerEvent.returnValues.winner);
+        setWinner(
+          winnerEvent.returnValues.nickname ||
+          winnerEvent.returnValues[1]
+        );
       }
 
       setStatus("Winner has been selected.");
 
       await loadBalance();
-      await loadPlayersCount();
+      await loadPlayers();
     } catch (error) {
       console.error(error);
       setStatus(
@@ -144,6 +169,13 @@ function App() {
       );
     }
   };
+
+  useEffect(() => {
+    if (window.ethereum) {
+      loadBalance();
+      loadPlayers();
+    }
+  }, []);
 
   return (
     <div className="app">
@@ -181,6 +213,22 @@ function App() {
           </div>
         </div>
 
+        <div className="nickname-section">
+          <label htmlFor="nickname">
+            Your nickname
+          </label>
+
+          <input
+            id="nickname"
+            type="text"
+            placeholder="Enter your nickname"
+            value={nickname}
+            onChange={(event) =>
+              setNickname(event.target.value)
+            }
+          />
+        </div>
+
         <div className="buttons">
           <button onClick={joinLottery}>
             Join Lottery
@@ -197,6 +245,23 @@ function App() {
             Pick Winner
           </button>
         </div>
+
+        {players.length > 0 && (
+          <div className="players-list">
+            <h2>Participants</h2>
+
+            {players.map((player, index) => (
+              <div
+                className="player"
+                key={`${player.address}-${index}`}
+              >
+                <span>
+                  {index + 1}. {player.nickname}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {winner && (
           <div className="winner">
