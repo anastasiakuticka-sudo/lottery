@@ -1,6 +1,8 @@
 node_modules/
 frontend/node_modules/
+frontend/frontend/
 dist/
 frontend/dist/
 .env
 .env.local
+contracts/Config.js
