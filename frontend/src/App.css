@@ -1,0 +1,164 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #111827;
+  color: #ffffff;
+}
+
+button {
+  font-family: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.lottery-card {
+  width: 100%;
+  max-width: 560px;
+  padding: 40px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 42px;
+}
+
+.subtitle {
+  margin: 10px 0 30px;
+  color: #9ca3af;
+  font-size: 17px;
+}
+
+.connect-button {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 14px;
+  background: #374151;
+  color: white;
+  border: 1px solid #4b5563;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.connect-button:hover {
+  background: #4b5563;
+}
+
+.account {
+  margin: 15px 0 25px;
+  padding: 12px;
+  background: #111827;
+  border-radius: 8px;
+  color: #9ca3af;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.info-box {
+  padding: 20px;
+  background: #111827;
+  border-radius: 12px;
+}
+
+.info-box span {
+  display: block;
+  color: #9ca3af;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.info-box strong {
+  font-size: 24px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.buttons button {
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.buttons button:hover {
+  background: #1d4ed8;
+}
+
+.buttons .winner-button {
+  background: #7c3aed;
+}
+
+.buttons .winner-button:hover {
+  background: #6d28d9;
+}
+
+.winner {
+  margin-top: 25px;
+  padding: 20px;
+  background: #111827;
+  border-radius: 12px;
+}
+
+.winner h2 {
+  margin-top: 0;
+}
+
+.winner p {
+  color: #9ca3af;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+.status {
+  margin-top: 20px;
+  padding: 12px;
+  background: #111827;
+  border-radius: 8px;
+  color: #d1d5db;
+}
+
+.fee {
+  margin-top: 25px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .lottery-card {
+    padding: 25px;
+  }
+
+  .info {
+    grid-template-columns: 1fr;
+  }
+}
