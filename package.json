@@ -1,5 +1,10 @@
 {
+  "type": "module",
   "dependencies": {
     "web3": "^4.16.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-viem": "^3.0.9",
+    "hardhat": "^3.18.0"
   }
 }
